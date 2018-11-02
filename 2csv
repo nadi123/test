@@ -1,0 +1,20 @@
+import pandas as pd
+from pandas import ExcelWriter
+import time
+
+
+xlf = pd.ExcelFile("worlddata.xlsx")
+dxlf = xlf.parse("worlddata")
+d_in = pd.melt(dxlf, id_vars=["Country Name","Country Code","Indicator Name","Indicator Code"], var_name="Year", value_name="Value")
+d_in.reset_index(drop=True)
+#print(d_in)
+
+"""
+writer = ExcelWriter("output.xlsx")
+d_in.to_excel(writer, "out")
+writer.save()
+"""
+
+current_time = time.strftime("%Y%m%d")
+file = current_time + "outcsv.csv"
+d_in.to_csv(file, index=False)
